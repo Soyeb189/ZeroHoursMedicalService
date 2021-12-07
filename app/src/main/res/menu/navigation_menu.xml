@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:title="অ্যাকাউন্ট"
+            android:id="@+id/account"
+            android:icon="@drawable/account"
+            android:iconTint="#558B2F"
+            />
+        <item
+            android:title="জিজ্ঞাসা"
+            android:id="@+id/help"
+            android:icon="@drawable/help"
+            android:iconTint="#558B2F"
+            />
+        <item
+            android:title="আমাদেরকে জানুন"
+            android:id="@+id/about"
+            android:icon="@drawable/about"
+            android:iconTint="#558B2F"
+            />
+
+    </group>
+</menu>

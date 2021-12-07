@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#ddd"
+    android:paddingBottom="5dp"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="5dp"
+        android:background="#ddd"
+        app:cardCornerRadius="3dp"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="9dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="4dp"
+                android:layout_margin="2dp"
+                android:src="@drawable/ic_user_fill"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvPosterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                tools:text="Muktadir Soyeb"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp"
+                app:layout_constraintStart_toEndOf="@+id/profileImage"
+                app:layout_constraintTop_toTopOf="@+id/profileImage" />
+
+            <TextView
+                android:id="@+id/tvPostDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/profileImage"
+                app:layout_constraintStart_toEndOf="@+id/profileImage"
+                app:layout_constraintTop_toBottomOf="@+id/tvPosterName"
+                tools:text="Muktadir Soyeb" />
+
+            <kr.co.prnd.readmore.ReadMoreTextView
+                android:id="@+id/tvPostDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:ellipsize="end"
+                tools:text="Renowned in Bangladesh for his expertise in Balloon Valvuloplasty including PTMC and Peripheral Angioplasty, he has an outstanding performance record in PCI, including CTOS"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/profileImage"
+                app:layout_constraintTop_toBottomOf="@+id/tvPostDate"
+                app:readMoreColor="@color/red_btn_bg_color"
+                app:readMoreMaxLine="2"
+                app:readMoreText="Read More" />
+            <com.github.chrisbanes.photoview.PhotoView
+                android:id="@+id/postImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvPostDetails"
+                app:layout_constraintStart_toStartOf="@+id/tvPostDetails"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                tools:src="@drawable/logo"
+                android:scaleType="centerCrop"/>
+
+            <Button
+                android:id="@+id/messageButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_background_rounded_red"
+                android:text="লগইন"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

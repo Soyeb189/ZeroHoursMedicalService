@@ -1,0 +1,3 @@
+rootProject.name = "Zero Hours Medical Service"
+include ':app'
+include ':sweetalert'

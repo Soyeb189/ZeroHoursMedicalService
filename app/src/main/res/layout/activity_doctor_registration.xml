@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.DoctorRegistration">
+
+    <LinearLayout
+        android:id="@+id/header_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/header_bg" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/header_view"
+        android:layout_above="@id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="120dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/doctor_sign_up_form"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/bottom_bg" />
+
+    </LinearLayout>
+
+    <!-- <View
+         android:id="@+id/header_view"
+         android:layout_width="match_parent"
+         android:layout_height="100dp"
+         android:background="@drawable/header_bg"/>
+
+     <androidx.core.widget.NestedScrollView
+         android:layout_below="@+id/header_view"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+
+         <LinearLayout
+             android:layout_marginTop="10dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+             <include layout="@layout/doctor_sign_up_form"/>
+
+         </LinearLayout>
+
+     </androidx.core.widget.NestedScrollView>
+
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:gravity="bottom">
+
+         <View
+             android:id="@+id/footerView"
+             android:layout_width="match_parent"
+             android:layout_height="100dp"
+             android:background="@drawable/bottom_bg" />
+     </LinearLayout>-->
+
+
+</RelativeLayout>

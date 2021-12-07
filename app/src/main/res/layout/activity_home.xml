@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".view.Home">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:background="@color/purple_700"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/createPostLayout"
+        android:layout_below="@+id/toolbar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="আপনার অসুবিধার কথা আমাদের জানান"/>
+       <androidx.appcompat.widget.AppCompatEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:padding="10dp"
+           android:layout_marginStart="10dp"
+           android:layout_marginEnd="10dp"
+           android:hint="এখানে আপনার অসুবিধার কথা লিখুন"
+           android:background="@drawable/edit_text_background"
+           android:minHeight="100dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:text="পোস্ট করুন"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPostList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createPostLayout"
+        android:clipToPadding="false"
+        android:paddingBottom="15dp"/>
+
+</RelativeLayout>

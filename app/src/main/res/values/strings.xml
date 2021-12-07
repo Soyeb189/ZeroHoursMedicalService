@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Zero Hours Medical Service</string>
+    <string name="open_drawer">Open Navigation Drawer</string>
+    <string name="close_drawer">Close Navigation Drawer</string>
+    <string name="underline_login"><u>আপনার অ্যাকাউন্ট নেই? <br /> রেজিস্ট্রেশান করুন</u></string>
+    <string name="registration_underline"><u>আপনার অ্যাকাউন্ট আছে? <br /> লগিন করুন</u></string>
+    <string name="doctor_underline"><u>আপনি কি ডাক্তার?</u></string>
+    <string name="rationale_photo_picker">We require this permission to select photo from gallery and camera.</string>
+</resources>

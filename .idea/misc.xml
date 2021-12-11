@@ -4,13 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2203125" />
+        <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/drawable/edit_text_background.xml" value="0.2203125" />
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2203125" />
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/drawable/ic_user_fill.xml" value="0.2203125" />
+        <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/drawable/rounded_for_edit_text.xml" value="0.2203125" />
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/activity_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/activity_login.xml" value="0.1" />
-        <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/item_post_list.xml" value="0.33" />
+        <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/activity_messaging.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/item_post_list.xml" value="0.25" />
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/login_form.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/message_card.xml" value="0.20416666666666666" />
         <entry key="..\:/Android Project/ZeroHoursMedicalService/app/src/main/res/layout/navigation_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/BITM Flutter/Projects/ZeroHoursMedicalService/app/src/main/res/layout/activity_doctor_registration.xml" value="0.1921875" />
         <entry key="..\:/BITM Flutter/Projects/ZeroHoursMedicalService/app/src/main/res/layout/activity_login.xml" value="0.15092592592592594" />

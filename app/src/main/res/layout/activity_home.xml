@@ -34,6 +34,7 @@
             android:layout_marginTop="10dp"
             android:text="আপনার অসুবিধার কথা আমাদের জানান"/>
        <androidx.appcompat.widget.AppCompatEditText
+           android:id="@+id/edtEditPost"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:padding="10dp"
@@ -44,6 +45,7 @@
            android:minHeight="100dp"/>
 
         <Button
+            android:id="@+id/btnPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"

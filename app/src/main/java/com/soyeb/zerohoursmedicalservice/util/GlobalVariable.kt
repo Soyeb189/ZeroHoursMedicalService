@@ -4,13 +4,12 @@ import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
 
-class GlobalVeriable : Application(){
+class GlobalVariable : Application(){
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
-
 
     var gardenType : String?=""
     var menuId : String?=""

@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ddd"
-    android:paddingBottom="5dp"
-    android:layout_height="wrap_content">
+    android:paddingBottom="5dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_margin="5dp"
-        android:background="#ddd"
-        app:cardCornerRadius="3dp"
-        android:paddingBottom="10dp"
-        android:layout_marginBottom="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="9dp"
+        android:background="#ddd"
+        android:paddingBottom="10dp"
+        app:cardCornerRadius="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,8 +27,8 @@
                 android:id="@+id/profileImage"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="4dp"
                 android:layout_margin="2dp"
+                android:padding="4dp"
                 android:src="@drawable/ic_user_fill"
                 app:civ_border_color="@color/black"
                 app:civ_border_width="2dp"
@@ -40,13 +40,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                tools:text="Muktadir Soyeb"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="14sp"
                 android:layout_marginTop="6dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/profileImage"
-                app:layout_constraintTop_toTopOf="@+id/profileImage" />
+                app:layout_constraintTop_toTopOf="@+id/profileImage"
+                tools:text="Muktadir Soyeb" />
 
             <TextView
                 android:id="@+id/tvPostDate"
@@ -65,27 +65,72 @@
                 android:id="@+id/tvPostDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:ellipsize="end"
-                tools:text="Renowned in Bangladesh for his expertise in Balloon Valvuloplasty including PTMC and Peripheral Angioplasty, he has an outstanding performance record in PCI, including CTOS"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/profileImage"
                 app:layout_constraintTop_toBottomOf="@+id/tvPostDate"
                 app:readMoreColor="@color/red_btn_bg_color"
-                app:readMoreMaxLine="2"
-                app:readMoreText="Read More" />
+                app:readMoreMaxLine="4"
+                app:readMoreText="Read More"
+                tools:text="Renowned in Bangladesh for his expertise in Balloon Valvuloplasty including PTMC and Peripheral Angioplasty, he has an outstanding performance record in PCI, including CTOS" />
+
             <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/postImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:layout_constraintTop_toBottomOf="@+id/tvPostDetails"
-                app:layout_constraintStart_toStartOf="@+id/tvPostDetails"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                tools:src="@drawable/logo"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="@+id/tvPostDetails"
+                app:layout_constraintTop_toBottomOf="@+id/tvPostDetails"
+                tools:src="@drawable/logo" />
+
+            <View
+                android:layout_marginTop="15dp"
+                android:id="@+id/footerV"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#558B2F"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postImage" />
+
+            <LinearLayout
+                android:id="@+id/footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/footerV">
+
+                <EditText
+                    android:id="@+id/edtMessage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_for_edit_text"
+                    android:hint="আপনার পরামর্শ দিন"
+                    android:padding="10dp" />
+
+                <ImageView
+                    android:id="@+id/sendImage"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight=".1"
+                    android:src="@drawable/send_arrow" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/messageButton"
@@ -95,6 +140,7 @@
                 android:text="লগইন"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/postImage" />

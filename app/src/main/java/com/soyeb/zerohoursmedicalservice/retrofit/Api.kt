@@ -1,13 +1,10 @@
 package com.doctortree.doctortree.retrofit
 
-import com.soyeb.zerohoursmedicalservice.data_model.LoginResponseM
-import com.soyeb.zerohoursmedicalservice.data_model.PostListResponseModel
-import com.soyeb.zerohoursmedicalservice.data_model.RegistrationResponseM
+import com.soyeb.zerohoursmedicalservice.data_model.*
 import io.reactivex.Single
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 interface Api {
 
@@ -35,6 +32,53 @@ interface Api {
 
     @GET("posts")
     fun getPost(): Single<List<PostListResponseModel.PostListResponseModelItem>>
+
+//    @Multipart
+//    //@FormUrlEncoded
+//    @POST("message")
+//    fun doLrDocUpload(
+//        @Part("sender_id") sender_id: RequestBody?,
+//        @Part("receiver_id") receiver_id: RequestBody?,
+//        @Part("message") message: RequestBody?,
+//        @Part photo : MultipartBody.Part?
+//    ): Single<MessageDataM>
+
+    // @Multipart
+    @FormUrlEncoded
+    @POST("save-post")
+    fun doPost(
+        @Field("title") title: String?,
+        @Field("description") description: String?,
+        @Field("user_id") user_id: String?,
+        // @Part image: List<MultipartBody.Part?>?
+    ): Single<PostResponseM>
+
+    @GET("view/message/{sender_id}/{receiver_id}")
+    fun getMessage(
+        @Path("receiver_id") receiver_id:String?,
+        @Path("sender_id") sender_id:String?
+
+    ): Single<List<MessageListDataM>>
+
+    @Multipart
+    //@FormUrlEncoded
+    @POST("message")
+    fun doLrDocUpload(
+        @Part("sender_id") sender_id: RequestBody?,
+        @Part("receiver_id") receiver_id: RequestBody?,
+        @Part("message") message: RequestBody?,
+        @Part photo : MultipartBody.Part?
+    ): Single<MessageDataM>
+
+    // @Multipart
+    @FormUrlEncoded
+    @POST("message")
+    fun doLrDocUploadWithoutImage(
+        @Field("sender_id") sender_id: String?,
+        @Field("receiver_id") receiver_id: String?,
+        @Field("message") message: String?,
+        // @Part image: List<MultipartBody.Part?>?
+    ): Single<MessageDataM>
 
 
 

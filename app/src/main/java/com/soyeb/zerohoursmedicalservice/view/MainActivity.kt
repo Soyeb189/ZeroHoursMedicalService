@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatDelegate
 import com.soyeb.zerohoursmedicalservice.R
+import com.soyeb.zerohoursmedicalservice.util.PreferenceUtility
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -43,9 +44,20 @@ class MainActivity : AppCompatActivity() {
         handler = Handler()
         runnable = Runnable {
             timer.cancel()
-            val intent = Intent(this, Login::class.java)
-            startActivity(intent)
-            finish()
+
+            var isLogin = PreferenceUtility.instance.getIsLogin(this)
+
+            if (isLogin == "1"){
+                val intent = Intent(this, Home::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(this, Login::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+
         }
 
         timer = Timer()

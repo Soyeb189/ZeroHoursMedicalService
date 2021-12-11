@@ -1,17 +1,15 @@
 package com.soyeb.zerohoursmedicalservice.view
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,16 +17,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bd.ehaquesoft.sweetalert.SweetAlertDialog
-import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.soyeb.zerohoursmedicalservice.R
 import com.soyeb.zerohoursmedicalservice.adapter.PostListAdapter
 import com.soyeb.zerohoursmedicalservice.data_model.PostListResponseModel
+import com.soyeb.zerohoursmedicalservice.data_model.PostRequestWithoutImageM
+import com.soyeb.zerohoursmedicalservice.data_model.PostResponseM
 import com.soyeb.zerohoursmedicalservice.util.Custom_alert
-import com.soyeb.zerohoursmedicalservice.util.GlobalVeriable
+import com.soyeb.zerohoursmedicalservice.util.GlobalVariable
+import com.soyeb.zerohoursmedicalservice.util.PreferenceUtility
 import com.soyeb.zerohoursmedicalservice.view_model.PostListViewM
-import de.hdodenhof.circleimageview.CircleImageView
-import java.security.AccessController.getContext
+import com.soyeb.zerohoursmedicalservice.view_model.PostWithoutImageVM
 
 class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
 
@@ -43,14 +42,18 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
     private lateinit var navigationView: NavigationView
     lateinit var toggle: ActionBarDrawerToggle
 
-    private lateinit var globalVeriable: GlobalVeriable
+    private lateinit var globalVariable: GlobalVariable
 
     private lateinit var postListViewModel : PostListViewM
+    private lateinit var postWithoutImageVM : PostWithoutImageVM
+
     private lateinit var adapter : PostListAdapter
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    //************ button ************//
+    private lateinit var btnPost : Button
+
+    //************ Edit Text *************//
+    private lateinit var edtEditPost : AppCompatEditText
 
     //*********** Menu List *************//
     private lateinit var postList : ArrayList<PostListResponseModel.PostListResponseModelItem>
@@ -60,6 +63,10 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
         setContentView(R.layout.navigation_drawer)
 
         initialization()
+
+        Log.d("SSS","ID"+globalVariable.id)
+        Log.d("SSS","ID: "+PreferenceUtility.instance.getUserId(this))
+
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Zero Hour Medical Service"
@@ -75,8 +82,13 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
 
         navigationView.setNavigationItemSelectedListener(this)
 
-        doDailyTransactionNoTransfer()
-        dailyTransferTransactionListObserver()
+        btnPost.setOnClickListener{
+            postPost()
+        }
+
+        getPostList()
+        getPostListObserver()
+        observePostWithoutImage()
 
     }
 
@@ -94,61 +106,88 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
         navigationView = findViewById(R.id.navigationView)
 
         postListViewModel = ViewModelProvider(this).get(PostListViewM::class.java)
-        
-        postList = ArrayList<PostListResponseModel.PostListResponseModelItem>()
+        postWithoutImageVM = ViewModelProvider(this).get(PostWithoutImageVM::class.java)
+
+        postList = ArrayList()
+
+        //******** button ***************//
+        btnPost = findViewById(R.id.btnPost)
+        edtEditPost = findViewById(R.id.edtEditPost)
 
 
 
-        //globalVeriable = this.applicationContext as GlobalVeriable
+        globalVariable = this.applicationContext as GlobalVariable
 
     }
 
-    private fun doDailyTransactionNoTransfer() {
+    private fun postPost() {
+
+        pDialog.show()
+
+        var model  = PostRequestWithoutImageM()
+
+        model.title = "1"
+        model.description = ""+edtEditPost.text.toString()
+        model.user_id = ""+PreferenceUtility.instance.getUserId(this)
+
+        this.let { it1 -> postWithoutImageVM.doPost(model,it1) }
+    }
+
+
+    fun observePostWithoutImage(){
+        postWithoutImageVM.message_info.observe(this, androidx.lifecycle.Observer {
+
+            it?.let {
+
+                val model = PostResponseM(
+                    it.title,
+                    it.user_id,
+                    it.description,
+                    it.updated_at,
+                    it.created_at,
+                    it.id,
+                    it.error,
+                    it.message,
+                )
+
+                getPostList()
+            }
+        })
+    }
+
+    private fun getPostList() {
 
         pDialog.show()
 
         this.let { it1 -> postListViewModel.doPostRequest(it1) }
     }
 
-    private fun dailyTransferTransactionListObserver() {
+    private fun getPostListObserver() {
 
         postListViewModel.add_opt_res.observe(
             this,
             androidx.lifecycle.Observer {
-
-
-
                 it?.let {
                     pDialog.dismiss()
-
                     try {
                         postList.clear()
                     } catch (e: Exception) {
                     }
-
                     postList = ArrayList<PostListResponseModel.PostListResponseModelItem>()
-
-                    for (i in 0 until it.size) {
-
+                    for (i in it.indices) {
                         val model = PostListResponseModel.PostListResponseModelItem(
-
-                            it.get(i).createdAt,
-                            it.get(i).description,
-                            it.get(i).email,
-                            it.get(i).error,
-                            it.get(i).id,
-                            it.get(i).image,
-                            it.get(i).name,
-                            it.get(i).title,
-                            it.get(i).userImage
-
-
+                            it[i].createdAt,
+                            it[i].description,
+                            it[i].email,
+                            it[i].error,
+                            it[i].id,
+                            it[i].image,
+                            it[i].name,
+                            it[i].title,
+                            it[i].userImage
                         )
-
                         postList.add(model)
-
                         Log.e("Size",postList.size.toString())
-
                     }
 
                     val recyclerView: RecyclerView = findViewById(R.id.rvPostList)
@@ -164,32 +203,6 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
 
                     recyclerView.adapter = adapter
 
-            /*        viewManager = LinearLayoutManager(this)
-                    viewAdapter =
-                        PostListAdapter(
-                            postList,
-                            this,
-                            object :
-                                PostListAdapter.OnItemClickListener {
-                                override fun onItemClick(item: PostListResponseModel.PostListResponseModelItem?) {
-
-                                }
-                            })
-
-                    recyclerView = findViewById<RecyclerView>(R.id.rvPostList).apply {
-                        // use this setting to improve performance if you know that changes
-                        // in content do not change the layout size of the RecyclerView
-                        setHasFixedSize(true)
-
-                        viewManager.isAutoMeasureEnabled = false;
-
-                        // use a linear layout manager
-                        layoutManager = viewManager
-
-                        // specify an viewAdapter (see also next example)
-                        adapter = viewAdapter
-
-                    }*/
                 }
 
             })

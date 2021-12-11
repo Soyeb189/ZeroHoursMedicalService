@@ -1,10 +1,8 @@
 package com.doctortree.doctortree.retrofit
 
 import com.google.gson.GsonBuilder
-import com.soyeb.zerohoursmedicalservice.data_model.LoginResponseM
-import com.soyeb.zerohoursmedicalservice.data_model.RegistrationResponseM
-import com.soyeb.zerohoursmedicalservice.request_model.LoginRequestM
-import com.soyeb.zerohoursmedicalservice.request_model.RegistrationRequestM
+import com.soyeb.zerohoursmedicalservice.data_model.*
+import com.soyeb.zerohoursmedicalservice.request_model.*
 import com.soyeb.zerohoursmedicalservice.util.Constrants_Variable
 import io.reactivex.Single
 import okhttp3.OkHttpClient
@@ -63,6 +61,38 @@ class ApiService {
     }
 
     val call = api.getPost()
+
+    fun  doLrDocUploadWithoutImage(model: PostRequestWithoutImageM): Single<PostResponseM> {
+        return api.doPost(
+            model.title,
+            model.description,
+            model.user_id
+        )
+    }
+
+    fun getMessage(model: MessageListRequestM): Single<List<MessageListDataM>> {
+        return api.getMessage(
+            model.receiver_id,
+            model.sender_id
+        )
+    }
+
+    fun  doLrDocUpload(requestModel: MessageRequestM): Single<MessageDataM> {
+        return api.doLrDocUpload(
+            requestModel.sender_id,
+            requestModel.receiver_id,
+            requestModel.message,
+            requestModel.body,
+        )
+    }
+
+    fun  doLrDocUploadWithoutImage(model: MessageRequestWithoutImageM): Single<MessageDataM> {
+        return api.doLrDocUploadWithoutImage(
+            model.sender_id,
+            model.receiver_id,
+            model.message
+        )
+    }
 
 /*val call = api.getMenu()
 

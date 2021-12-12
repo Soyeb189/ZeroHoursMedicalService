@@ -5,10 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -38,6 +35,8 @@ class PostListAdapter(
         var messageButton : Button
         var footerV : View
         var footer : LinearLayout
+        var edtMessage : EditText
+        var sendImage : ImageView
         init {
             profileImage = itemView.findViewById(R.id.profileImage)
             name = itemView.findViewById(R.id.tvPosterName)
@@ -47,6 +46,8 @@ class PostListAdapter(
             messageButton = itemView.findViewById(R.id.messageButton)
             footerV = itemView.findViewById(R.id.footerV)
             footer = itemView.findViewById(R.id.footer)
+            edtMessage = itemView.findViewById(R.id.edtMessage)
+            sendImage = itemView.findViewById(R.id.sendImage)
         }
     }
 
@@ -59,7 +60,7 @@ class PostListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val postList = postList[position]
 
-        var i = 2
+
         var doctor = PreferenceUtility.instance.getDoctor(context)
 
         val dtStart = postList.createdAt
@@ -93,14 +94,20 @@ class PostListAdapter(
             holder.postImage.visibility = View.GONE
         }
 
-        if (doctor=="0"){
-            holder.messageButton.visibility = View.GONE
-            holder.footer.visibility = View.GONE
-            holder.footerV.visibility = View.GONE
-        }else{
+        if (doctor=="1"){
+            Log.d("SSS","IDঃ "+PreferenceUtility.instance.getDoctor(context))
             holder.messageButton.visibility = View.GONE
             holder.footer.visibility = View.VISIBLE
             holder.footerV.visibility = View.GONE
+            holder.sendImage.visibility = View.VISIBLE
+            holder.edtMessage.visibility = View.VISIBLE
+
+        }else{
+            holder.messageButton.visibility = View.GONE
+            holder.footer.visibility = View.GONE
+            holder.footerV.visibility = View.GONE
+            holder.sendImage.visibility = View.GONE
+            holder.edtMessage.visibility = View.GONE
         }
 
 

@@ -23,6 +23,12 @@
         android:theme="@style/Theme.ZeroHoursMedicalService"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".view.Profile"
+            android:exported="false" />
+        <activity
+            android:name=".view.About"
+            android:exported="false" />
+        <activity
             android:name=".view.Messaging"
             android:exported="false" />
         <activity

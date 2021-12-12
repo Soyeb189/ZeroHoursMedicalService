@@ -5,31 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.Registration">
-    <View
+
+
+
+    <LinearLayout
         android:id="@+id/header_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/header_bg"/>
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header_view"
-        android:orientation="vertical">
-        <include layout="@layout/signupform"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="100dp">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@drawable/bottom_bg"/>
+            android:background="@drawable/header_bg" />
+
     </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/header_view"
+        android:layout_above="@id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_view"
+            android:orientation="vertical">
+            <include layout="@layout/signupform"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/bottom_bg" />
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>

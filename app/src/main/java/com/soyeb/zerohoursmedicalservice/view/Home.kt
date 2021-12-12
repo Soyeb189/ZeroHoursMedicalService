@@ -216,10 +216,9 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
 
         when(id){
             R.id.account ->{
-                Toast.makeText(this,"Coming Soon",Toast.LENGTH_SHORT).show()
 
-//                i = Intent(this,Profile::class.java)
-//                startActivity(i)
+                i = Intent(this,Profile::class.java)
+                startActivity(i)
             }
 
             R.id.help ->{
@@ -230,9 +229,22 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
             }
 
             R.id.about ->{
-                Toast.makeText(this,"Coming Soon",Toast.LENGTH_SHORT).show()
-//                i = Intent(this,About::class.java)
-//                startActivity(i)
+                i = Intent(this,About::class.java)
+                startActivity(i)
+            }
+
+            R.id.logout ->{
+                PreferenceUtility.instance.setUserId(this,"")
+                PreferenceUtility.instance.setUserName(this,"")
+                PreferenceUtility.instance.setUserEmail(this,"")
+                PreferenceUtility.instance.setDoctor(this,"")
+                PreferenceUtility.instance.setApprove(this,"")
+
+                PreferenceUtility.instance.setIsLogin(this,"0")
+
+                i = Intent(this,Login::class.java)
+                startActivity(i)
+                finish()
             }
 
         }

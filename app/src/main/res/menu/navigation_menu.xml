@@ -20,6 +20,12 @@
             android:icon="@drawable/about"
             android:iconTint="#558B2F"
             />
+        <item
+            android:title="লগআউট"
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout_box_line"
+            android:iconTint="#558B2F"
+            />
 
     </group>
 </menu>

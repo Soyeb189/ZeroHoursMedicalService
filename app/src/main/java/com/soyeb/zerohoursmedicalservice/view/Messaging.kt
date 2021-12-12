@@ -580,7 +580,7 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-       
+
     }
 
     //***************** Adapter Class end here *********************//

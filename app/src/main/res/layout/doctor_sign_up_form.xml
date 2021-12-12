@@ -131,7 +131,7 @@
 
 
     <Button
-        android:id="@+id/buttonAcount"
+        android:id="@+id/btnDoctorSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -139,7 +139,7 @@
         android:text="সাইন আপ"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/loginLink"
+        app:layout_constraintBottom_toTopOf="@+id/loginLinkDoctor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +162,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/loginLink"
+        android:id="@+id/loginLinkDoctor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
@@ -172,5 +172,5 @@
         android:textColor="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAcount"/>
+        app:layout_constraintTop_toBottomOf="@+id/btnDoctorSignUp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

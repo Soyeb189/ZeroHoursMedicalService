@@ -118,7 +118,7 @@ class Login : AppCompatActivity() {
                             PreferenceUtility.instance.setApprove(this,model.approve.toString())
 
                             globalVariable.id = model.id.toString()
-                            Log.d("SSS","ID"+globalVariable.id)
+                            Log.d("SSS","IDঃ "+PreferenceUtility.instance.getDoctor(this))
                             Log.d("SSS","ID"+model.id.toString())
 
                             if (model.doctor?.equals("1")!! && model.approve?.equals("0")!!){
@@ -154,16 +154,7 @@ class Login : AppCompatActivity() {
                                     }
                                     .show()
                             }
-
-
-
-
-
-//                            Custom_alert.showSuccessMessage(this,"লগিন সম্পূর্ণ হয়েছে")
-//                            pDialog.confirmText = "লগিন সম্পূর্ণ হয়েছে"
-//                            val intent = Intent(this, MainActivity::class.java)
-//                            startActivity(intent)
-//                            finish()
+                            
                         }
                     }
 

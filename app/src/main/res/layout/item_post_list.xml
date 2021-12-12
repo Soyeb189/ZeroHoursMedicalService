@@ -113,6 +113,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/footerV">
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/edtMessage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -123,6 +124,7 @@
                     android:padding="10dp" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/sendImage"
                     android:layout_width="25dp"
                     android:layout_height="25dp"

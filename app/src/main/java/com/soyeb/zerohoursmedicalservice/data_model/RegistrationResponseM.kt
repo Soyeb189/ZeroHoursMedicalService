@@ -1,6 +1,7 @@
 package com.soyeb.zerohoursmedicalservice.data_model
 
 data class RegistrationResponseM(
+
     val name: String,
     val phone_no: String,
     val email: String,

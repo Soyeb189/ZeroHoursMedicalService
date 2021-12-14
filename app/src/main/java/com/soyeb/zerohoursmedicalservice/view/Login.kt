@@ -95,14 +95,15 @@ class Login : AppCompatActivity() {
                             it.id ,
                             it.name,
                             it.email,
-                            it.phone_no,
-                            it.email_verified_at ,
+                            it.phoneNo,
+                            it.emailVerifiedAt ,
+                            it.image,
                             it.admin,
                             it.doctor,
                             it.approve ,
-                            it.reg_no,
-                            it.created_at,
-                            it.updated_at,
+                            it.regNo,
+                            it.createdAt,
+                            it.updatedAt,
                             it.message,
                             it.error
                         )
@@ -116,8 +117,16 @@ class Login : AppCompatActivity() {
                             PreferenceUtility.instance.setUserEmail(this,model.email.toString())
                             PreferenceUtility.instance.setDoctor(this,model.doctor.toString())
                             PreferenceUtility.instance.setApprove(this,model.approve.toString())
+                            PreferenceUtility.instance.setIsDoctor(this,"0")
+                            PreferenceUtility.instance.setUserPhone(this,model.phoneNo.toString())
+
+
 
                             globalVariable.id = model.id.toString()
+                            globalVariable.doctor = model.doctor
+                            globalVariable.name = model.name
+                            globalVariable.email = model.email
+
                             Log.d("SSS","IDঃ "+PreferenceUtility.instance.getDoctor(this))
                             Log.d("SSS","ID"+model.id.toString())
 

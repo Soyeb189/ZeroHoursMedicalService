@@ -219,6 +219,7 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
 
                 i = Intent(this,Profile::class.java)
                 startActivity(i)
+                finish()
             }
 
             R.id.help ->{
@@ -231,6 +232,7 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
             R.id.about ->{
                 i = Intent(this,About::class.java)
                 startActivity(i)
+                finish()
             }
 
             R.id.logout ->{

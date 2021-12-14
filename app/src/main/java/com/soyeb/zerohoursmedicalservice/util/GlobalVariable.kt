@@ -11,11 +11,11 @@ class GlobalVariable : Application(){
         MultiDex.install(this)
     }
 
-    var gardenType : String?=""
-    var menuId : String?=""
+
     var id : String?=""
     var name : String?=""
     var email : String?=""
+    var doctor : String ? = ""
 
     var context: Context? = null
 }

@@ -70,6 +70,7 @@ class About : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             R.id.account ->{
                 i = Intent(this,Profile::class.java)
                 startActivity(i)
+                finish()
             }
 
             R.id.help ->{
@@ -82,6 +83,7 @@ class About : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             R.id.about ->{
                 i = Intent(this,About::class.java)
                 startActivity(i)
+                finish()
             }
 
             R.id.logout ->{

@@ -99,6 +99,19 @@ class PreferenceUtility private constructor() {
         return preferences!!.getString(LOGIN, DEFAULT_EMPTY_TOKEN)
     }
 
+    fun setIsDoctor(context: Context, login: String?) {
+        val editor = getPreferences(context)!!
+            .edit()
+        editor.putString(IS_DOCTOR, login)
+        editor.apply()
+    }
+
+
+    fun getIsDoctor(context: Context): String? {
+        val preferences = getPreferences(context)
+        return preferences!!.getString(IS_DOCTOR, DEFAULT_EMPTY_TOKEN)
+    }
+
 
 
 
@@ -108,6 +121,7 @@ class PreferenceUtility private constructor() {
         private const val USER_NAME = ""
         private const val USER_PHONE = ""
         private const val DOCTOR = "0"
+        private const val IS_DOCTOR = "0"
         private const val APPROVE = "0"
         private const val USER_EMAIL = "user_email"
         private const val USER_ID = "user_id"

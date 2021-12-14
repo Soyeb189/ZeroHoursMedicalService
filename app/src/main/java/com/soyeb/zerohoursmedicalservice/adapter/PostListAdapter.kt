@@ -26,6 +26,9 @@ class PostListAdapter(
 
 ) : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
 
+    var doctor = PreferenceUtility.instance.getIsDoctor(context)
+
+
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         var profileImage: CircleImageView
         var name: TextView
@@ -61,10 +64,19 @@ class PostListAdapter(
         val postList = postList[position]
 
 
-        var doctor = PreferenceUtility.instance.getDoctor(context)
 
         val dtStart = postList.createdAt
-        Log.d("date",postList.createdAt)
+
+        Log.d("SSS", "IDঃ $doctor")
+
+        PreferenceUtility.instance.getDoctor(context)?.let { Log.d("SSS", it) }
+        PreferenceUtility.instance.getUserEmail(context)?.let { Log.d("SSS", it) }
+        PreferenceUtility.instance.getUserName(context)?.let { Log.d("SSS", it) }
+        PreferenceUtility.instance.getUserId(context)?.let { Log.d("SSS", it) }
+        PreferenceUtility.instance.getApprove(context)?.let { Log.d("SSS", it) }
+        PreferenceUtility.instance.getIsLogin(context)?.let { Log.d("SSS", it) }
+        PreferenceUtility.instance.getUserPhone(context)?.let { Log.d("SSS", it) }
+
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val format = SimpleDateFormat("yyyy-MM-dd")
         try {
@@ -94,8 +106,7 @@ class PostListAdapter(
             holder.postImage.visibility = View.GONE
         }
 
-        if (doctor=="1"){
-            Log.d("SSS","IDঃ "+PreferenceUtility.instance.getDoctor(context))
+        if (doctor.equals("1")){
             holder.messageButton.visibility = View.GONE
             holder.footer.visibility = View.VISIBLE
             holder.footerV.visibility = View.GONE

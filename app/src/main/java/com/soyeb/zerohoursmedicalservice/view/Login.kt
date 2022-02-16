@@ -1,6 +1,8 @@
 package com.soyeb.zerohoursmedicalservice.view
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -11,11 +13,17 @@ import com.bd.ehaquesoft.sweetalert.SweetAlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.soyeb.zerohoursmedicalservice.R
 import com.soyeb.zerohoursmedicalservice.data_model.LoginResponseM
+import com.soyeb.zerohoursmedicalservice.data_model.UserDetails
+import com.soyeb.zerohoursmedicalservice.local.User
+import com.soyeb.zerohoursmedicalservice.local.UserDataBase
 import com.soyeb.zerohoursmedicalservice.request_model.LoginRequestM
 import com.soyeb.zerohoursmedicalservice.util.Custom_alert
 import com.soyeb.zerohoursmedicalservice.util.GlobalVariable
 import com.soyeb.zerohoursmedicalservice.util.PreferenceUtility
 import com.soyeb.zerohoursmedicalservice.view_model.LoginViewM
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Login : AppCompatActivity() {
 
@@ -29,6 +37,10 @@ class Login : AppCompatActivity() {
     private lateinit var edtPasswordLogin : TextInputEditText
 
     private lateinit var globalVariable: GlobalVariable
+
+    private val user: User? = null
+
+    lateinit var userDetails: UserDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,13 +124,29 @@ class Login : AppCompatActivity() {
 
                         if (model.error?.equals("false")!!){
 
+                          /*  userDetails = UserDetails(this)
+
+                            CoroutineScope(Dispatchers.IO).launch {
+                                userDetails.storeUser(
+                                    model.name,
+                                    model.doctor
+                                )
+                            }*/
+
                             PreferenceUtility.instance.setUserId(this,model.id.toString())
+                            Log.d("SSS","ID"+model.id.toString())
                             PreferenceUtility.instance.setUserName(this,model.name.toString())
+                            Log.d("SSS","Name"+model.name.toString())
                             PreferenceUtility.instance.setUserEmail(this,model.email.toString())
+                            Log.d("SSS","Email"+model.email.toString())
                             PreferenceUtility.instance.setDoctor(this,model.doctor.toString())
+                            Log.d("SSS","Doctor"+model.doctor.toString())
                             PreferenceUtility.instance.setApprove(this,model.approve.toString())
+                            Log.d("SSS","Approve"+model.approve.toString())
                             PreferenceUtility.instance.setIsDoctor(this,"0")
                             PreferenceUtility.instance.setUserPhone(this,model.phoneNo.toString())
+
+                            saveSharedData(model.id.toString(),model.name,model.email,model.phoneNo,model.doctor,model.approve)
 
 
 
@@ -127,7 +155,7 @@ class Login : AppCompatActivity() {
                             globalVariable.name = model.name
                             globalVariable.email = model.email
 
-                            Log.d("SSS","IDঃ "+PreferenceUtility.instance.getDoctor(this))
+                            Log.e("SSSS","IDঃ "+PreferenceUtility.instance.getIsDoctor(this))
                             Log.d("SSS","ID"+model.id.toString())
 
                             if (model.doctor?.equals("1")!! && model.approve?.equals("0")!!){
@@ -171,5 +199,18 @@ class Login : AppCompatActivity() {
                 }
             }
         )
+    }
+
+    private fun saveSharedData(id:String,name:String,email:String,phone:String,doctor: String,approve:String) {
+        val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPref",Context.MODE_PRIVATE)
+        val editor:SharedPreferences.Editor = sharedPreferences.edit()
+        editor.apply{
+            putString("ID",id)
+            putString("NAME",name)
+            putString("EMAIL",email)
+            putString("PHONE",phone)
+            putString("DOCTOR",doctor)
+            putString("APPROVE",approve)
+        }.apply()
     }
 }

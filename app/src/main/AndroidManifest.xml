@@ -23,14 +23,20 @@
         android:theme="@style/Theme.ZeroHoursMedicalService"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".view.Profile"
+            android:name=".view.UserList"
             android:exported="false" />
+        <activity
+            android:name=".view.HomeV2"
+            android:exported="true" />
+        <activity
+            android:name=".view.Profile"
+            android:exported="true" />
         <activity
             android:name=".view.About"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".view.Messaging"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".view.DoctorRegistration"
             android:exported="true" />

@@ -98,4 +98,24 @@ dependencies {
     implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    implementation "androidx.room:room-runtime:2.2.5"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
+
+    // Activity KTX for viewModels()
+    implementation "androidx.activity:activity-ktx:1.2.3"
+
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+
+    // Coroutine Lifecycle Scopes
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+
+
+    //data-store
+    implementation 'androidx.datastore:datastore-preferences:1.0.0-rc01'
+    implementation 'androidx.datastore:datastore-preferences-core:1.0.0-rc01'
 }

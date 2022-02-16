@@ -6,53 +6,49 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bd.ehaquesoft.sweetalert.SweetAlertDialog
 import com.doctortree.doctortree.retrofit.ApiService
-import com.soyeb.zerohoursmedicalservice.data_model.MessageDataM
-import com.soyeb.zerohoursmedicalservice.request_model.MessageRequestWithoutImageM
+import com.soyeb.zerohoursmedicalservice.data_model.UserListRequestM
+import com.soyeb.zerohoursmedicalservice.data_model.UserListResponseModel
 import com.soyeb.zerohoursmedicalservice.util.Custom_alert
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 
-class MessageWithoutImageVM : ViewModel() {
-
+class UserListViewM : ViewModel() {
     private val apiService = ApiService()
     private val disposable = CompositeDisposable()
-    var message_info = MutableLiveData<MessageDataM>()
 
+    var userList = MutableLiveData<List<UserListResponseModel.UserListResponseModelItem>>()
 
-    fun doMessage(model: MessageRequestWithoutImageM, activity: Activity) {
+    fun getUserList(reqmodel: UserListRequestM, activity: Activity) {
 
         var pDialog: SweetAlertDialog? =  Custom_alert.showProgressDialog(activity)
 
         disposable.add(
-            apiService.doLrDocUploadWithoutImage(model)
+            apiService.getUserList(reqmodel)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<MessageDataM>() {
-                    override fun onSuccess(model: MessageDataM) {
-
-                        Log.e("Upload", "Success")
+                .subscribeWith(object :
+                    DisposableSingleObserver<List<UserListResponseModel.UserListResponseModelItem>>() {
+                    override fun onSuccess(model: List<UserListResponseModel.UserListResponseModelItem>) {
 
                         Log.e("model-->", model.toString())
 
                         model.let {
-                            message_info.value = model
+                            userList.value = model
                         }
-
                     }
 
                     override fun onError(e: Throwable) {
-                        model.pDialog?.dismiss()
-                        Log.e("Upload", "Failed")
+                        pDialog?.hide()
                         Log.e("onError--->", "onError--" + e.toString())
-
+                        //NetworkError.(activity, e)
                         e.printStackTrace()
-
-
                     }
 
                 })
         )
+
+
     }
 }

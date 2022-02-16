@@ -1,11 +1,13 @@
 package com.soyeb.zerohoursmedicalservice.view
 
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -38,9 +40,11 @@ class About : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
 
 
         //************ For Drawer *****************///
-        toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,
+        toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
             R.string.open_drawer,
-            R.string.close_drawer)
+            R.string.close_drawer
+        )
         drawerLayout.addDrawerListener(toggle)
 
         toggle.syncState()
@@ -48,7 +52,7 @@ class About : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    private fun initialization(){
+    private fun initialization() {
         //************ Toolbar ****************//
         toolbar = findViewById(R.id.toolbar)
 
@@ -61,41 +65,50 @@ class About : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        var i : Intent
+        i = Intent(this,Home::class.java)
+        startActivity(i)
+    }
+
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var id : Int = item.itemId
-        var i : Intent
+        var id: Int = item.itemId
+        var i: Intent
 
-        when(id){
-            R.id.account ->{
-                i = Intent(this,Profile::class.java)
+        when (id) {
+            R.id.account -> {
+                i = Intent(this, Profile::class.java)
                 startActivity(i)
                 finish()
             }
 
-            R.id.help ->{
-                Toast.makeText(this,"Coming Soon",Toast.LENGTH_SHORT).show()
+            R.id.help -> {
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
 
 //                i = Intent(this,Messaging::class.java)
 //                startActivity(i)
             }
 
-            R.id.about ->{
-                i = Intent(this,About::class.java)
+            R.id.about -> {
+                i = Intent(this, About::class.java)
                 startActivity(i)
                 finish()
             }
 
-            R.id.logout ->{
-                PreferenceUtility.instance.setUserId(this,"")
-                PreferenceUtility.instance.setUserName(this,"")
-                PreferenceUtility.instance.setUserEmail(this,"")
-                PreferenceUtility.instance.setDoctor(this,"")
-                PreferenceUtility.instance.setApprove(this,"")
+            R.id.home -> {
+                i = Intent(this, Home::class.java)
+                startActivity(i)
+                finish()
+            }
 
-                PreferenceUtility.instance.setIsLogin(this,"0")
+            R.id.logout -> {
+               saveSharedData("0","","","","","","0")
 
-                i = Intent(this,Login::class.java)
+                PreferenceUtility.instance.setIsLogin(this, "0")
+
+                i = Intent(this, Login::class.java)
                 startActivity(i)
                 finish()
             }
@@ -103,5 +116,28 @@ class About : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun saveSharedData(
+        id: String,
+        name: String,
+        email: String,
+        phone: String,
+        doctor: String,
+        approve: String,
+        isLogin: String
+    ) {
+        val sharedPreferences: SharedPreferences =
+            getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.apply {
+            putString("ID", id)
+            putString("NAME", name)
+            putString("EMAIL", email)
+            putString("PHONE", phone)
+            putString("DOCTOR", doctor)
+            putString("APPROVE", approve)
+            putString("ISLOGIN",isLogin)
+        }.apply()
     }
 }

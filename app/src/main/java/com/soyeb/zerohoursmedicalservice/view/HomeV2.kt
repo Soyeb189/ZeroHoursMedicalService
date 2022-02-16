@@ -7,64 +7,88 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.TextView
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.coroutineScope
+import com.bd.ehaquesoft.sweetalert.SweetAlertDialog
 import com.google.android.material.navigation.NavigationView
 import com.soyeb.zerohoursmedicalservice.R
-import com.soyeb.zerohoursmedicalservice.local.User
+import com.soyeb.zerohoursmedicalservice.adapter.PostListAdapter
+import com.soyeb.zerohoursmedicalservice.data_model.PostListResponseModel
+import com.soyeb.zerohoursmedicalservice.data_model.UserDetails
+import com.soyeb.zerohoursmedicalservice.util.Custom_alert
 import com.soyeb.zerohoursmedicalservice.util.GlobalVariable
 import com.soyeb.zerohoursmedicalservice.util.PreferenceUtility
+import com.soyeb.zerohoursmedicalservice.view_model.PostListViewM
+import com.soyeb.zerohoursmedicalservice.view_model.PostWithoutImageVM
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.collect
 
-class Profile : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class HomeV2 : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     //*********** Toolbar ************//
     private lateinit var toolbar: Toolbar
+
+    //*********** Sweet Alert *********//
+    private lateinit var pDialog: SweetAlertDialog
 
     //*********** Drawer *************//
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     lateinit var toggle: ActionBarDrawerToggle
 
-    //*********** Text View **************//
-    private lateinit var tvName : TextView
-    private lateinit var tvEmail : TextView
+    private lateinit var globalVariable: GlobalVariable
 
-    private lateinit var user:User
+    private lateinit var postListViewModel : PostListViewM
+    private lateinit var postWithoutImageVM : PostWithoutImageVM
+
+    private lateinit var adapter : PostListAdapter
+
+    //************ button ************//
+    private lateinit var btnPost : Button
+
+    //************ Edit Text *************//
+    private lateinit var edtEditPost : AppCompatEditText
+
+    //*********** Menu List *************//
+    private lateinit var postList : ArrayList<PostListResponseModel.PostListResponseModelItem>
 
 
-    private lateinit var globalVeriable: GlobalVariable
+    lateinit var userDetails: UserDetails
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.profile_drawer)
+        setContentView(R.layout.navigation_drawer)
+
+        userDetails = UserDetails(this)
 
         initialization()
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "প্রোফাইল"
-
-
-        //************ For Drawer *****************///
-        toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,
-            R.string.open_drawer,
-            R.string.close_drawer)
-        drawerLayout.addDrawerListener(toggle)
-
-        toggle.syncState()
-
-        navigationView.setNavigationItemSelectedListener(this)
 
         getSharedData()
 
 
 
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Zero Hour Medical Service"
 
-//        tvName.text = user.name
-//        tvEmail.text = user.email
+        //************ For Drawer *****************///
+        toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        drawerLayout.addDrawerListener(toggle)
+
+        toggle.syncState()
+
+        navigationView.setNavigationItemSelectedListener(this)
     }
 
     private fun getSharedData() {
@@ -87,35 +111,33 @@ class Profile : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
 
         val approve : String? = sharedPreferences.getString("APPROVE",null)
         Log.d("SSS", "Approve: $approve")
-
-        tvName.text = name
-        tvEmail.text = email
     }
 
-    private fun initialization(){
+    private fun initialization() {
         //************ Toolbar ****************//
         toolbar = findViewById(R.id.toolbar)
+
+        //************ Alert Dialog **********//
+        pDialog = Custom_alert.showProgressDialog(this)
 
         //************ Drawer ****************//
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
 
-        //*********** Text View **************//
-        tvName  = findViewById(R.id.tvName)
-        tvEmail = findViewById(R.id.tvEmail)
+        postListViewModel = ViewModelProvider(this).get(PostListViewM::class.java)
+        postWithoutImageVM = ViewModelProvider(this).get(PostWithoutImageVM::class.java)
 
-        globalVeriable = this.applicationContext as GlobalVariable
+        postList = ArrayList()
 
+        //******** button ***************//
+        btnPost = findViewById(R.id.btnPost)
+        edtEditPost = findViewById(R.id.edtEditPost)
+
+
+
+        globalVariable = this.applicationContext as GlobalVariable
 
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        var i : Intent
-        i = Intent(this,Home::class.java)
-        startActivity(i)
-    }
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var id : Int = item.itemId
@@ -123,6 +145,7 @@ class Profile : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
 
         when(id){
             R.id.account ->{
+
                 i = Intent(this,Profile::class.java)
                 startActivity(i)
                 finish()
@@ -131,6 +154,8 @@ class Profile : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.help ->{
                 Toast.makeText(this,"Coming Soon", Toast.LENGTH_SHORT).show()
 
+//                i = Intent(this,Messaging::class.java)
+//                startActivity(i)
             }
 
             R.id.about ->{
@@ -146,7 +171,11 @@ class Profile : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
             }
 
             R.id.logout ->{
-                saveSharedData("0","","","","","","0")
+                PreferenceUtility.instance.setUserId(this,"")
+                PreferenceUtility.instance.setUserName(this,"")
+                PreferenceUtility.instance.setUserEmail(this,"")
+                PreferenceUtility.instance.setDoctor(this,"")
+                PreferenceUtility.instance.setApprove(this,"")
 
                 PreferenceUtility.instance.setIsLogin(this,"0")
 
@@ -158,28 +187,5 @@ class Profile : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    private fun saveSharedData(
-        id: String,
-        name: String,
-        email: String,
-        phone: String,
-        doctor: String,
-        approve: String,
-        isLogin: String
-    ) {
-        val sharedPreferences: SharedPreferences =
-            getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.apply {
-            putString("ID", id)
-            putString("NAME", name)
-            putString("EMAIL", email)
-            putString("PHONE", phone)
-            putString("DOCTOR", doctor)
-            putString("APPROVE", approve)
-            putString("ISLOGIN",isLogin)
-        }.apply()
     }
 }

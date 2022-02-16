@@ -1,7 +1,9 @@
 package com.soyeb.zerohoursmedicalservice.request_model
 
-class MessageListRequestM {
+import com.bd.ehaquesoft.sweetalert.SweetAlertDialog
 
+class MessageListRequestM {
+    var pDialog: SweetAlertDialog? = null
     var receiver_id : String? = ""
     var sender_id : String? = ""
 }

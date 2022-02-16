@@ -49,9 +49,14 @@ interface Api {
     fun doPost(
         @Field("title") title: String?,
         @Field("description") description: String?,
-        @Field("user_id") user_id: String?,
+        @Field("user_id") user_id: String?
         // @Part image: List<MultipartBody.Part?>?
     ): Single<PostResponseM>
+
+    @GET("view/message/receiver/{user_id}")
+    fun getUserList(
+        @Path("user_id") user_id:String?
+    ): Single<List<UserListResponseModel.UserListResponseModelItem>>
 
     @GET("view/message/{sender_id}/{receiver_id}")
     fun getMessage(

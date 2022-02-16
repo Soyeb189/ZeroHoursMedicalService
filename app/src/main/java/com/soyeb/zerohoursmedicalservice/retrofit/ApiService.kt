@@ -77,6 +77,12 @@ class ApiService {
         )
     }
 
+    fun getUserList(model: UserListRequestM): Single<List<UserListResponseModel.UserListResponseModelItem>> {
+        return api.getUserList(
+            model.user_id
+        )
+    }
+
     fun  doLrDocUpload(requestModel: MessageRequestM): Single<MessageDataM> {
         return api.doLrDocUpload(
             requestModel.sender_id,

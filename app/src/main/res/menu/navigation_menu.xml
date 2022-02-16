@@ -3,6 +3,12 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:title="হোম"
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home_heart_line"
+            android:iconTint="#558B2F"
+            />
+        <item
             android:title="অ্যাকাউন্ট"
             android:id="@+id/account"
             android:icon="@drawable/account"
@@ -13,6 +19,7 @@
             android:id="@+id/help"
             android:icon="@drawable/help"
             android:iconTint="#558B2F"
+            android:visible="false"
             />
         <item
             android:title="আমাদেরকে জানুন"
@@ -26,6 +33,7 @@
             android:icon="@drawable/ic_logout_box_line"
             android:iconTint="#558B2F"
             />
+
 
     </group>
 </menu>

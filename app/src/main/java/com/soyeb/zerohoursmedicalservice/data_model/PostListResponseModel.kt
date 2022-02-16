@@ -11,10 +11,14 @@ class PostListResponseModel : ArrayList<PostListResponseModel.PostListResponseMo
         val description: String, // hhhhh
         @SerializedName("email")
         val email: String, // admin@admin.com
+        @SerializedName("phone_no")
+        val phone_no: String, // admin@admin.com
         @SerializedName("error")
         val error: Boolean, // false
         @SerializedName("id")
         val id: Int, // 3
+        @SerializedName("user_id")
+        val user_id: String, // 3
         @SerializedName("image")
         val image: String, // http://dump.shaikot.com/default-image/default.jpg
         @SerializedName("name")

@@ -74,7 +74,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvPostDate"
                 app:readMoreColor="@color/red_btn_bg_color"
                 app:readMoreMaxLine="4"
-                app:readMoreText="Read More"
+                android:paddingBottom="10dp"
+                app:readMoreText="   Read More"
                 tools:text="Renowned in Bangladesh for his expertise in Balloon Valvuloplasty including PTMC and Peripheral Angioplasty, he has an outstanding performance record in PCI, including CTOS" />
 
             <com.github.chrisbanes.photoview.PhotoView
@@ -111,6 +112,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/footerV">
+
+                <Button
+                    android:id="@+id/message"
+                    android:text="বার্তা পাঠান"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
+                <Button
+                    android:id="@+id/call"
+                    android:text="কল করুন"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"/>
 
                 <EditText
                     android:visibility="gone"

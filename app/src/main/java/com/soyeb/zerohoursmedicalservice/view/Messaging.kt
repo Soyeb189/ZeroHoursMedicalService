@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
@@ -87,6 +88,8 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     var choose: Int = 0
     var pDocNid: Int = 0
+    var idReciver : String? = null
+    var name : String? = null
 
     private lateinit var messageVM: MessageVM
 
@@ -96,11 +99,15 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messaging)
 
+        name = intent.getStringExtra("Name")!!
+        idReciver = intent.getStringExtra("ID")!!
+
+
         initialization()
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "জরুরি জিজ্ঞাসা"
+        supportActionBar?.title = name
 
         btnMessageImage.setOnClickListener {
             pickPhotoClicked()
@@ -275,9 +282,17 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
     private fun getMessage() {
+
+        val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+
+        val id : String? = sharedPreferences.getString("ID",null)
+        Log.d("SSS", "ID: $id")
+
+        Log.d("SSS", "Reciver ID: $idReciver Sender ID: $id")
+
         val model = MessageListRequestM()
-        model.receiver_id = "1"
-        model.sender_id = "" + globalVeriable.id
+        model.receiver_id = idReciver
+        model.sender_id = "" + id
 
         this.let { it1 -> messageListViewM.getMessageList(model, it1) }
         recyclerView.visibility = View.VISIBLE
@@ -289,10 +304,11 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     fun observeViewModel() {
-
+        pDialog.dismiss()
         messageListViewM.messageList.observe(
             this,
             androidx.lifecycle.Observer {
+                pDialog.dismiss()
 
                 it?.let {
 
@@ -317,9 +333,11 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                             )
 
                             messageList.add(model)
+                            Log.d("size-->", model.error.toString())
 
                         }
-                        Log.e("size-->", messageList.size.toString())
+                        Log.d("size-->", messageList.size.toString())
+
                         /*
                         val linearLayoutManager = LinearLayoutManager(this)
                         recyclerView.layoutManager = linearLayoutManager
@@ -361,6 +379,7 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
                     } else {
+                        pDialog.dismiss()
                         Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -395,9 +414,17 @@ class Messaging : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     //**************** Message Without Image *********************//
 
     private fun sentMessage() {
+
+        val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+
+        val id : String? = sharedPreferences.getString("ID",null)
+        Log.d("SSS", "ID: $id")
+
+        Log.d("SSS", "Reciver ID: $idReciver Sender ID: $id")
+
         val model = MessageRequestWithoutImageM()
-        model.sender_id = globalVeriable.id
-        model.receiver_id = "1"
+        model.sender_id = id
+        model.receiver_id = idReciver
         model.message = "" + edtMessage.text.toString()
 
         this.let { it1 -> messageWithoutImageVM.doMessage(model, it1) }

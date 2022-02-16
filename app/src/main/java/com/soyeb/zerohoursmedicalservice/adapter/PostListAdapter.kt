@@ -1,6 +1,7 @@
 package com.soyeb.zerohoursmedicalservice.adapter
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,10 @@ import com.bumptech.glide.Priority
 import com.github.chrisbanes.photoview.PhotoView
 import com.soyeb.zerohoursmedicalservice.R
 import com.soyeb.zerohoursmedicalservice.data_model.PostListResponseModel
+import com.soyeb.zerohoursmedicalservice.local.User
+import com.soyeb.zerohoursmedicalservice.local.UserDataBase
 import com.soyeb.zerohoursmedicalservice.util.PreferenceUtility
+import com.soyeb.zerohoursmedicalservice.util.PreferenceUtility.Companion.instance
 import de.hdodenhof.circleimageview.CircleImageView
 import java.text.DateFormat
 import java.text.ParseException
@@ -26,16 +30,26 @@ class PostListAdapter(
 
 ) : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
 
-    var doctor = PreferenceUtility.instance.getIsDoctor(context)
+    companion object {
+        private lateinit var clickListener: OnItemClick
+    }
+
+    fun setClickListener(clickListener: OnItemClick?) {
+        Companion.clickListener = clickListener!!
+    }
+
 
 
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+
         var profileImage: CircleImageView
         var name: TextView
         var postDate: TextView
         var description : TextView
         var postImage : PhotoView
         var messageButton : Button
+        var message : Button
+        var call : Button
         var footerV : View
         var footer : LinearLayout
         var edtMessage : EditText
@@ -47,6 +61,8 @@ class PostListAdapter(
             description = itemView.findViewById(R.id.tvPostDetails)
             postImage = itemView.findViewById(R.id.postImage)
             messageButton = itemView.findViewById(R.id.messageButton)
+            message = itemView.findViewById(R.id.message)
+            call = itemView.findViewById(R.id.call)
             footerV = itemView.findViewById(R.id.footerV)
             footer = itemView.findViewById(R.id.footer)
             edtMessage = itemView.findViewById(R.id.edtMessage)
@@ -67,15 +83,26 @@ class PostListAdapter(
 
         val dtStart = postList.createdAt
 
-        Log.d("SSS", "IDঃ $doctor")
 
-        PreferenceUtility.instance.getDoctor(context)?.let { Log.d("SSS", it) }
-        PreferenceUtility.instance.getUserEmail(context)?.let { Log.d("SSS", it) }
-        PreferenceUtility.instance.getUserName(context)?.let { Log.d("SSS", it) }
-        PreferenceUtility.instance.getUserId(context)?.let { Log.d("SSS", it) }
-        PreferenceUtility.instance.getApprove(context)?.let { Log.d("SSS", it) }
-        PreferenceUtility.instance.getIsLogin(context)?.let { Log.d("SSS", it) }
-        PreferenceUtility.instance.getUserPhone(context)?.let { Log.d("SSS", it) }
+        val sharedPreferences : SharedPreferences = context.getSharedPreferences("sharedPref",Context.MODE_PRIVATE)
+
+        val id : String? = sharedPreferences.getString("ID",null)
+        Log.d("SSS", "ID: $id")
+
+        val name : String? = sharedPreferences.getString("NAME",null)
+        Log.d("SSS", "Doctor: $name")
+
+        val email : String? = sharedPreferences.getString("EMAIL",null)
+        Log.d("SSS", "Doctor: $email")
+
+        val phone : String? = sharedPreferences.getString("PHONE",null)
+        Log.d("SSS", "Doctor: $phone")
+
+        val doctor : String? = sharedPreferences.getString("DOCTOR",null)
+        Log.d("SSS", "Doctor: $doctor")
+
+        val approve : String? = sharedPreferences.getString("APPROVE",null)
+        Log.d("SSS", "Approve: $approve")
 
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val format = SimpleDateFormat("yyyy-MM-dd")
@@ -110,8 +137,10 @@ class PostListAdapter(
             holder.messageButton.visibility = View.GONE
             holder.footer.visibility = View.VISIBLE
             holder.footerV.visibility = View.GONE
-            holder.sendImage.visibility = View.VISIBLE
-            holder.edtMessage.visibility = View.VISIBLE
+            holder.sendImage.visibility = View.GONE
+            holder.edtMessage.visibility = View.GONE
+            holder.message.visibility = View.VISIBLE
+            holder.call.visibility = View.VISIBLE
 
         }else{
             holder.messageButton.visibility = View.GONE
@@ -119,6 +148,17 @@ class PostListAdapter(
             holder.footerV.visibility = View.GONE
             holder.sendImage.visibility = View.GONE
             holder.edtMessage.visibility = View.GONE
+        }
+
+        holder.profileImage.setOnClickListener {
+            clickListener.onPostClick(postList)
+        }
+
+        holder.message.setOnClickListener {
+            clickListener.onPostClick(postList)
+        }
+        holder.call.setOnClickListener {
+            clickListener.onPostCallClick(postList)
         }
 
 
@@ -130,6 +170,7 @@ class PostListAdapter(
     }
 
     interface OnItemClick{
-        fun onPostClick(postItem : PostListResponseModel)
+        fun onPostClick(postItem : PostListResponseModel.PostListResponseModelItem)
+        fun onPostCallClick(postItem : PostListResponseModel.PostListResponseModelItem)
     }
 }

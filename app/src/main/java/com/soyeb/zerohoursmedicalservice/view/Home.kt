@@ -1,12 +1,17 @@
 package com.soyeb.zerohoursmedicalservice.view
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.AppCompatEditText
@@ -29,7 +34,7 @@ import com.soyeb.zerohoursmedicalservice.util.PreferenceUtility
 import com.soyeb.zerohoursmedicalservice.view_model.PostListViewM
 import com.soyeb.zerohoursmedicalservice.view_model.PostWithoutImageVM
 
-class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
+class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener ,PostListAdapter.OnItemClick{
 
     //*********** Toolbar ************//
     private lateinit var toolbar: Toolbar
@@ -64,6 +69,8 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
 
         initialization()
 
+        getSharedData()
+
         Log.d("SSS","ID"+globalVariable.id)
         Log.d("SSS","ID: "+PreferenceUtility.instance.getUserId(this))
 
@@ -90,6 +97,24 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
         getPostListObserver()
         observePostWithoutImage()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        var id = item.itemId
+        if (id == R.id.message){
+            var intent = Intent(this,UserList::class.java)
+            startActivity(intent)
+            finish()
+
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -126,9 +151,14 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
 
         var model  = PostRequestWithoutImageM()
 
+        val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+
+        val id : String? = sharedPreferences.getString("ID",null)
+        Log.d("SSS", "ID: $id")
+
         model.title = "1"
         model.description = ""+edtEditPost.text.toString()
-        model.user_id = ""+PreferenceUtility.instance.getUserId(this)
+        model.user_id = ""+id
 
         this.let { it1 -> postWithoutImageVM.doPost(model,it1) }
     }
@@ -169,6 +199,7 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
             androidx.lifecycle.Observer {
                 it?.let {
                     pDialog.dismiss()
+                    edtEditPost.setText("")
                     try {
                         postList.clear()
                     } catch (e: Exception) {
@@ -179,8 +210,10 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
                             it[i].createdAt,
                             it[i].description,
                             it[i].email,
+                            it[i].phone_no,
                             it[i].error,
                             it[i].id,
+                            it[i].user_id,
                             it[i].image,
                             it[i].name,
                             it[i].title,
@@ -192,14 +225,16 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
 
                     val recyclerView: RecyclerView = findViewById(R.id.rvPostList)
                     recyclerView.setHasFixedSize(true)
-                    recyclerView.setItemViewCacheSize(20)
+                   /* recyclerView.setItemViewCacheSize(20)
                     recyclerView.isDrawingCacheEnabled = true
-                    recyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+                    recyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH*/
 
                     val linearLayoutManager = LinearLayoutManager(this)
                     recyclerView.layoutManager = linearLayoutManager
 
                     adapter = PostListAdapter(postList,this)
+
+                    adapter.setClickListener(this)
 
                     recyclerView.adapter = adapter
 
@@ -235,12 +270,14 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
                 finish()
             }
 
+            R.id.home ->{
+                i = Intent(this,Home::class.java)
+                startActivity(i)
+                finish()
+            }
+
             R.id.logout ->{
-                PreferenceUtility.instance.setUserId(this,"")
-                PreferenceUtility.instance.setUserName(this,"")
-                PreferenceUtility.instance.setUserEmail(this,"")
-                PreferenceUtility.instance.setDoctor(this,"")
-                PreferenceUtility.instance.setApprove(this,"")
+                saveSharedData("0","","","","","","0")
 
                 PreferenceUtility.instance.setIsLogin(this,"0")
 
@@ -252,6 +289,86 @@ class Home : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListen
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onPostClick(postItem: PostListResponseModel.PostListResponseModelItem) {
+        Log.d("SSS",postItem.phone_no)
+        Log.d("SSS",postItem.user_id)
+        val intent = Intent(this,Messaging::class.java)
+        intent.putExtra("ID",postItem.user_id)
+        intent.putExtra("Name",postItem.name)
+        startActivity(intent)
+    }
+
+    override fun onPostCallClick(postItem: PostListResponseModel.PostListResponseModelItem) {
+        Log.d("SSS",postItem.phone_no)
+
+        val phoneNumber = postItem.phone_no // call center number goes here
+        val dial = Intent()
+        dial.action = Intent.ACTION_DIAL
+        try {
+            dial.data = Uri.parse("tel:$phoneNumber")
+            startActivity(dial)
+        } catch (e: Exception) {
+            // Log.e("Calling", "" + e.getMessage());
+        }
+    }
+
+    private fun saveSharedData(
+        id: String,
+        name: String,
+        email: String,
+        phone: String,
+        doctor: String,
+        approve: String,
+        isLogin: String
+    ) {
+        val sharedPreferences: SharedPreferences =
+            getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.apply {
+            putString("ID", id)
+            putString("NAME", name)
+            putString("EMAIL", email)
+            putString("PHONE", phone)
+            putString("DOCTOR", doctor)
+            putString("APPROVE", approve)
+            putString("ISLOGIN",isLogin)
+        }.apply()
+    }
+
+    private fun getSharedData() {
+        val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPref",Context.MODE_PRIVATE)
+
+        val id : String? = sharedPreferences.getString("ID",null)
+        Log.d("SSS", "ID: $id")
+
+        val name : String? = sharedPreferences.getString("NAME",null)
+        Log.d("SSS", "Doctor: $name")
+
+        val email : String? = sharedPreferences.getString("EMAIL",null)
+        Log.d("SSS", "Doctor: $email")
+
+        val phone : String? = sharedPreferences.getString("PHONE",null)
+        Log.d("SSS", "Doctor: $phone")
+
+        val doctor : String? = sharedPreferences.getString("DOCTOR",null)
+        Log.d("SSS", "Doctor: $doctor")
+
+        val approve : String? = sharedPreferences.getString("APPROVE",null)
+        Log.d("SSS", "Approve: $approve")
+
+        if (doctor.equals("1")){
+            var heading = findViewById<TextView>(R.id.heading)
+            edtEditPost.visibility = View.GONE
+            btnPost.visibility = View.GONE
+            heading.visibility = View.GONE
+        }else{
+            var heading = findViewById<TextView>(R.id.heading)
+            edtEditPost.visibility = View.VISIBLE
+            btnPost.visibility = View.VISIBLE
+            heading.visibility = View.VISIBLE
+        }
     }
 
 }

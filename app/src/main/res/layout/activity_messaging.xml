@@ -11,9 +11,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:titleTextColor="@android:color/white"
+        android:background="@color/purple_500"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-        android:background="#558B2F"/>
+        app:titleTextColor="@android:color/white" />
 
     <ImageView
         android:id="@+id/imageMsg"
@@ -53,6 +53,7 @@
             android:layout_marginStart="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:padding="15dp"
             android:layout_height="wrap_content"
             android:hint="Type your query here"
             android:background="@drawable/edit_text_background"/>
@@ -60,11 +61,14 @@
         <ImageView
             android:id="@+id/sendImage"
             android:layout_width="25dp"
+            android:layout_marginEnd="10dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_weight=".1"
-            android:src="@drawable/send_arrow" />
+            android:src="@drawable/ic_send_plane_fill"
+            app:tint="@color/purple_500" />
         <ImageView
+            android:visibility="gone"
             android:id="@+id/btnMessageImage"
             android:src="@drawable/image_gallery"
             android:layout_marginStart="10dp"

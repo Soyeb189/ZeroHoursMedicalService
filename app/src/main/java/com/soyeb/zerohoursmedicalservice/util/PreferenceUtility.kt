@@ -99,10 +99,10 @@ class PreferenceUtility private constructor() {
         return preferences!!.getString(LOGIN, DEFAULT_EMPTY_TOKEN)
     }
 
-    fun setIsDoctor(context: Context, login: String?) {
+    fun setIsDoctor(context: Context, isDoctor: String?) {
         val editor = getPreferences(context)!!
             .edit()
-        editor.putString(IS_DOCTOR, login)
+        editor.putString(IS_DOCTOR, isDoctor)
         editor.apply()
     }
 
